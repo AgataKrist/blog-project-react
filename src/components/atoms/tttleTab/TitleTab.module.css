@@ -1,0 +1,33 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+.title {
+  font-size: 45px;
+  font-weight: bold;
+}
+.active {
+  color: #016efc;
+}
+
+.link {
+  text-decoration: none;
+  display: inline-block;
+  color: #75869b;
+}
+.link:hover {
+  text-decoration: underline;
+}
+
+.item:first-child:after {
+  content: "";
+  position: relative;
+  top: 5px;
+  margin: 0 20px;
+  display: inline-block;
+  width: 5px;
+  height: 40px;
+  background-color: #75869b;
+}

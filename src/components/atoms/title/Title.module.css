@@ -1,0 +1,11 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 100px;
+}
+.title {
+  font-size: 45px;
+  font-weight: bold;
+  letter-spacing: 3%;
+  color: #016efc;
+}

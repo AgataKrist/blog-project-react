@@ -1,24 +1,18 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import { LoginPage } from "./components/pages/LoginPage";
+import { RegistrationPage } from "./components/pages/RegistrationPage";
+import { RegConfirm } from "./components/pages/RegConfirm";
+import { ResetPassword } from "./components/pages/ResetPassword";
+import { Success } from "./components/pages/Success";
+import { ResetPasswordAnswer } from "./components/pages/ResetPassAnswer";
+import { NewPassword } from "./components/pages/NewPassword";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <NewPassword />
     </div>
   );
 }
