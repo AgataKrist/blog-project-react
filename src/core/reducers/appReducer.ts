@@ -6,7 +6,7 @@ import {
   setIsValidPassword,
   setIsValidMail,
   setIsValidPasswordConfirm,
-} from "../../core/actions";
+} from "../actions";
 
 export interface IAppState {
   isOpenHeader: boolean;

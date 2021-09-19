@@ -5,114 +5,96 @@ import { SignAbout } from "../../atoms/signAbout/SignAbout";
 import ok from "../../../assets/ok.svg";
 import show from "../../../assets/show.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { getAppState } from "../../../core/selectors/appSelectors";
+import { getRegistrationState } from "../../../core/selectors/appSelectors";
 import { validateEmail, validatePassword, validateName } from "../../../helper";
-import {
-  setIsValidMail,
-  setIsValidPassword,
-  setIsValidUser,
-  setIsValidPasswordConfirm,
-} from "../../../core";
+import { setUser, setMail } from "../../../core";
+import { setPassword } from "../../../core/actions/loginActions";
+import { setPasswordConfirm } from "./../../../core/actions/regActions";
 
 export const RegForm = () => {
-  const { isValidUser } = useSelector(getAppState);
-  const { isValidMail } = useSelector(getAppState);
-  const { isValidPassword } = useSelector(getAppState);
-  const { isValidPasswordConfirm } = useSelector(getAppState);
+  const { user, mail, passwordConfirm, password } =
+    useSelector(getRegistrationState);
+
+  const isUser = validateName(user);
+  const isMail = validateEmail(mail);
+  const isPassword = validatePassword(password);
+  const isPasswordConfirm = () => {
+    return !!(
+      validatePassword(passwordConfirm) && passwordConfirm === password
+    );
+  };
 
   const dispatch = useDispatch();
 
-  const setUser = useCallback(
+  const handlerSetUser = useCallback(
     (value) => {
-      if (validateName(value)) {
-        dispatch(setIsValidUser(true));
-        return;
-      }
-      dispatch(setIsValidUser(false));
+      dispatch(setUser(value));
     },
-    [dispatch, isValidPassword]
+    [dispatch, user]
   );
-  const setPassword = useCallback(
-    (value) => {
-      if (validatePassword(value)) {
-        dispatch(setIsValidPassword(true));
-        return;
-      }
-      dispatch(setIsValidPassword(false));
-    },
-    [dispatch, isValidPassword]
-  );
-  const setPasswordConfirm = useCallback(
-    (value) => {
-      if (validatePassword(value)) {
-        dispatch(setIsValidPasswordConfirm(true));
-        return;
-      }
-      dispatch(setIsValidPasswordConfirm(false));
-    },
-    [dispatch, isValidPasswordConfirm]
-  );
-  const setEmail = useCallback(
-    (value) => {
-      if (validateEmail(value)) {
-        dispatch(setIsValidMail(true));
-        return;
-      }
 
-      dispatch(setIsValidMail(false));
+  const handlerSetPassword = useCallback(
+    (value) => {
+      dispatch(setPassword(value));
     },
-    [dispatch, isValidMail]
+    [dispatch, password]
+  );
+
+  const handlerSetPasswordConfirm = useCallback(
+    (value) => {
+      dispatch(setPasswordConfirm(value));
+    },
+    [dispatch, passwordConfirm]
+  );
+  const handlerSetEmail = useCallback(
+    (value) => {
+      dispatch(setMail(value));
+    },
+    [dispatch, mail]
   );
 
   useEffect(() => {
     return () => {
-      dispatch(setIsValidMail(false));
-      dispatch(setIsValidUser(false));
-      dispatch(setIsValidPassword(false));
-      dispatch(setIsValidPasswordConfirm(false));
+      dispatch(setUser(""));
+      dispatch(setMail(""));
+      dispatch(setPassword(""));
+      dispatch(setPasswordConfirm(""));
     };
   }, [dispatch]);
   return (
     <>
       <div>
         <Input
-          handlerSearchFilter={setUser}
-          isValid={isValidUser}
+          handlerSearchFilter={handlerSetUser}
+          isValid={isUser}
           label={"User Name"}
           img={ok}
           type={"text"}
         />
         <Input
-          handlerSearchFilter={setEmail}
-          isValid={isValidMail}
+          handlerSearchFilter={handlerSetEmail}
+          isValid={isMail}
           label={"Email"}
           img={ok}
           type={"text"}
         />
         <Input
-          handlerSearchFilter={setPassword}
-          isValid={isValidPassword}
+          handlerSearchFilter={handlerSetPassword}
+          isValid={isPassword}
           label={"Password"}
           img={show}
           type={"password"}
         />
         <Input
-          handlerSearchFilter={setPasswordConfirm}
-          isValid={isValidPasswordConfirm}
+          handlerSearchFilter={handlerSetPasswordConfirm}
+          isValid={isPasswordConfirm()}
           label={"Confirm Password"}
           img={show}
           type={"password"}
         />
       </div>
       <Button
-        disabled={
-          isValidMail &&
-          isValidPassword &&
-          isValidUser &&
-          isValidPasswordConfirm
-            ? false
-            : true
-        }
+        disabled={!(isUser && isMail && isPasswordConfirm() && isPassword)}
         text={"Login"}
       />
       <SignAbout
