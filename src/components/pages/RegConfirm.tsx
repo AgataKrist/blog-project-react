@@ -7,10 +7,10 @@ import s from "../atoms/signAbout/SignAbout.module.css";
 export const RegConfirm = () => {
   const description = (mb: string) => {
     return (
-      <div style={{ marginBottom: mb }}>
-        <p className={s.text}>Please activate your account with </p>
+      <div style={{ marginBottom: mb, textAlign: "center", width: "100%" }}>
         <p className={s.text}>
-          the activation link in the email
+          Please activate your account with <br /> the activation link in the
+          email
           <a className={s.link} href="/">
             test@gmail.com
           </a>

@@ -1,25 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import s from "./TitleTab.module.css";
 import cn from "classnames";
 
-export const TitleTab = () => {
-  const titles = [
+interface ITitleTab {
+  isActiveLogin?: boolean;
+  isActiveRegistration?: boolean;
+}
+
+export const TitleTab = ({
+  isActiveLogin,
+  isActiveRegistration,
+}: ITitleTab) => {
+  const titlesDefault = [
     {
       title: "Login",
-      isActive: true,
+      to: "login",
+      isActive: isActiveLogin,
     },
     {
       title: "Registration",
-      isActive: false,
+      to: "/registration",
+      isActive: isActiveRegistration,
     },
   ];
+
   return (
     <div className={s.wrapper}>
-      {titles.map(({ title, isActive }) => (
+      {titlesDefault.map(({ title, isActive, to }) => (
         <div className={s.item}>
-          <a className={s.link} href="/">
+          <Link to={to} className={s.link}>
             <h1 className={cn(s.title, { [s.active]: isActive })}>{title}</h1>
-          </a>
+          </Link>
         </div>
       ))}
     </div>

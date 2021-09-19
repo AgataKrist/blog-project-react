@@ -7,7 +7,7 @@ import s from "../atoms/signAbout/SignAbout.module.css";
 export const ResetPasswordAnswer = () => {
   const description = (mb: string) => {
     return (
-      <div style={{ marginBottom: mb }}>
+      <div style={{ marginBottom: mb, textAlign: "center" }}>
         <p className={s.text}>
           You will receive an email
           <a className={s.link} href="/">

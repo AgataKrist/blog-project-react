@@ -10,12 +10,10 @@ import { SignAbout } from "../atoms/signAbout/SignAbout";
 export const ResetPassword = () => {
   const description = (mb: string) => {
     return (
-      <div style={{ marginBottom: mb }}>
-        <div>
-          <p className={s.text}>
-            Please enter the email <br /> for your account{" "}
-          </p>
-        </div>
+      <div style={{ marginBottom: mb, textAlign: "center" }}>
+        <p className={s.text}>
+          Please enter the email <br /> for your account
+        </p>
       </div>
     );
   };
@@ -25,10 +23,10 @@ export const ResetPassword = () => {
         main={
           <>
             <Title title={"Reset password"} />
-            {description("50px")}
+            {description("20px")}
             <Input label={"Email"} img={ok} type={"text"} />
             <Button text={"Login"} />
-            <SignAbout text={"Return to "} to={"Login"} />
+            <SignAbout text={"Return to "} link={"Login"} to={"/login"} />
           </>
         }
       />

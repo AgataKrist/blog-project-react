@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
 .title {
   font-size: 45px;
@@ -16,10 +16,16 @@
   text-decoration: none;
   display: inline-block;
   color: #75869b;
+  cursor: initial;
 }
-.link:hover {
+
+.link > h1:not(.active):hover {
   text-decoration: underline;
+  cursor: pointer;
 }
+/* .link:hover {
+  text-decoration: underline;
+} */
 
 .item:first-child:after {
   content: "";

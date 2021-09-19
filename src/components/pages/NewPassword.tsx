@@ -18,10 +18,10 @@ export const NewPassword = () => {
   return (
     <div>
       <SignTemplate
+        title={<Title title={"New password"} />}
         main={
           <>
-            <Title title={"New password"} />
-            {description("50px")}
+            {description("20px")}
             <Input label={"New Password"} img={ok} type={"password"} />
             <Input label={"Confirm password"} img={ok} type={"password"} />
             <Button text={"Set password"} />

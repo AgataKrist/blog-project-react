@@ -1,19 +1,21 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import s from "./SignAbout.module.css";
 import cn from "classnames";
 
 interface ISignAbout {
   text: string;
   to: string;
+  link?: string;
 }
 
-export const SignAbout = ({ text, to }: ISignAbout) => {
+export const SignAbout = ({ text, to, link }: ISignAbout) => {
   return (
     <div>
       <span className={s.text}>{text}</span>
-      <a className={s.link} href="/">
-        <span className={cn(s.text)}>{to}</span>
-      </a>
+      <Link to={to} className={s.link}>
+        <span className={cn(s.text)}>{link}</span>
+      </Link>
     </div>
   );
 };
