@@ -1,5 +1,5 @@
 export const validateName = (name: string) => name.length > 4;
-export const validateEmail = (email: string) => {
+export const validateEmail = (email: string | null) => {
   const reg =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 

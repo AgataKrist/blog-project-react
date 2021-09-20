@@ -6,7 +6,7 @@ import show from "../../assets/show.svg";
 import { Button } from "../atoms/button/Button";
 import { SignAbout } from "../atoms/signAbout/SignAbout";
 import { TitleTab } from "./../atoms/tttleTab/TitleTab";
-import { RegForm } from "../forms/regForm/RegForm";
+import { RegistrationForm } from "../forms/regForm/RegistrationForm";
 
 export const RegistrationPage = () => {
   return (
@@ -15,7 +15,7 @@ export const RegistrationPage = () => {
         title={<TitleTab isActiveLogin={false} isActiveRegistration={true} />}
         isActiveLogin={false}
         isActiveRegistration={true}
-        main={<RegForm />}
+        main={<RegistrationForm />}
       />
     </div>
   );

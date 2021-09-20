@@ -1,1 +1,1 @@
-import { RegForm } from "./RegForm";
+import { RegistrationForm } from "./RegistrationForm";

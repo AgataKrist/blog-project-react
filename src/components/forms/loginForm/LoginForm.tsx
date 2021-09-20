@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Button } from "../../atoms/button/Button";
 import { Input } from "../../atoms/input";
 import { SignAbout } from "../../atoms/signAbout/SignAbout";
@@ -7,10 +7,11 @@ import show from "../../../assets/show.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { getLoginState } from "../../../core/selectors/appSelectors";
 import { validateEmail, validatePassword } from "../../../helper";
-import { setMail } from "../../../core";
-import { setPassword } from "../../../core";
+import { setMailLogin, setPasswordLogin } from "../../../core";
 
 export const LoginForm = () => {
+  const [typePass, setTypePass] = useState("password");
+
   const { mail, password } = useSelector(getLoginState);
 
   const isMail = validateEmail(mail);
@@ -19,40 +20,52 @@ export const LoginForm = () => {
   const dispatch = useDispatch();
 
   const handleSetPassword = useCallback(
-    (value) => {
-      dispatch(setPassword(value));
+    (value: string) => {
+      dispatch(setPasswordLogin(value));
     },
     [dispatch, password]
   );
   const handleSetMail = useCallback(
-    (value) => {
-      dispatch(setMail(value));
+    (value: string) => {
+      dispatch(setMailLogin(value));
     },
     [dispatch, mail]
   );
 
   useEffect(() => {
     return () => {
-      dispatch(setPassword(""));
-      dispatch(setMail(""));
+      dispatch(setPasswordLogin(""));
+      dispatch(setMailLogin(""));
     };
   }, [dispatch]);
+
+  const handleShowPass = (type: string) => {
+    if (type === "password") {
+      setTypePass("text");
+    }
+    if (type === "text") {
+      setTypePass("password");
+    }
+  };
   return (
     <>
       <div>
         <Input
-          handlerSearchFilter={handleSetMail}
+          value={mail}
+          onChange={handleSetMail}
           isValid={isMail}
           label={"Email"}
           img={ok}
           type={"text"}
         />
         <Input
-          handlerSearchFilter={handleSetPassword}
+          value={password}
+          handleShowPass={handleShowPass}
+          onChange={handleSetPassword}
           isValid={isPassword}
           label={"Password"}
           img={show}
-          type={"password"}
+          type={typePass}
         />
       </div>
       <Button disabled={!(isMail && isPassword)} text={"Login"} />

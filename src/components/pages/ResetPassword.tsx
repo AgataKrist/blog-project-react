@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
+import { useHistory } from "react-router";
 import { SignTemplate } from "../templates/signTemplate";
 import { Button } from "../atoms/button/Button";
 import { Title } from "./../atoms/title/Title";
@@ -6,6 +7,10 @@ import s from "../atoms/signAbout/SignAbout.module.css";
 import ok from "../../assets/ok.svg";
 import { Input } from "../atoms/input";
 import { SignAbout } from "../atoms/signAbout/SignAbout";
+import { useDispatch, useSelector } from "react-redux";
+import { getResetPasswordState } from "../../core/selectors/appSelectors";
+import { validateEmail } from "../../helper";
+import { setMailResetPassword } from "../../core/actions/resetPasswordActions";
 
 export const ResetPassword = () => {
   const description = (mb: string) => {
@@ -17,6 +22,27 @@ export const ResetPassword = () => {
       </div>
     );
   };
+  const history = useHistory();
+  const { mailReset } = useSelector(getResetPasswordState);
+  const handleHistory = () => {
+    history.push("resetPassAnswer");
+  };
+  const isMail = validateEmail(mailReset);
+
+  const dispatch = useDispatch();
+
+  const handleSetMail = useCallback(
+    (value: string) => {
+      dispatch(setMailResetPassword(value));
+    },
+    [dispatch, mailReset]
+  );
+
+  useEffect(() => {
+    return () => {
+      // dispatch(setMailResetPassword(mail));
+    };
+  }, [dispatch]);
   return (
     <div>
       <SignTemplate
@@ -24,8 +50,19 @@ export const ResetPassword = () => {
           <>
             <Title title={"Reset password"} />
             {description("20px")}
-            <Input label={"Email"} img={ok} type={"text"} />
-            <Button text={"Login"} />
+            <Input
+              value={mailReset}
+              isValid={isMail}
+              onChange={handleSetMail}
+              label={"Email"}
+              img={ok}
+              type={"text"}
+            />
+            <Button
+              disabled={!isMail}
+              handleHistory={handleHistory}
+              text={"Reset"}
+            />
             <SignAbout text={"Return to "} link={"Login"} to={"/login"} />
           </>
         }

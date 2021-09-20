@@ -2,6 +2,4 @@ import { createAction } from "typesafe-actions";
 
 import { ACTIONS } from "./constants";
 
-export const setIsOpenHeader = createAction(
-  ACTIONS.SET_IS_OPEN_HEADER
-)<boolean>();
+export const setMailResetPassword = createAction(ACTIONS.SET_MAIL)<string>();

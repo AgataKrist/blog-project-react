@@ -1,3 +1,3 @@
 export * from "./appActions";
-// export * from "./loginActions";
-export * from "./regActions";
+export * from "./loginActions";
+export * from "./registrationActions";

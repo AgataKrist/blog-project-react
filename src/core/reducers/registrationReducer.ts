@@ -1,15 +1,20 @@
 import { ActionType, createReducer } from "typesafe-actions";
 
-import { setMail, setPassword, setPasswordConfirm, setUser } from "../actions";
+import {
+  setMailRegistration,
+  setPasswordRegistration,
+  setPasswordConfirmRegistration,
+  setUserRegistration,
+} from "../actions";
 
-export interface IAppState {
+export interface IRegistrationReducer {
   user: string;
   mail: string;
   password: string;
   passwordConfirm: string;
 }
 
-const defaultState: IAppState = {
+const defaultState: IRegistrationReducer = {
   user: "",
   mail: "",
   passwordConfirm: "",
@@ -17,28 +22,29 @@ const defaultState: IAppState = {
 };
 
 const actions = {
-  setMail,
-  setPassword,
-  setPasswordConfirm,
-  setUser,
+  setMailRegistration,
+  setPasswordRegistration,
+  setPasswordConfirmRegistration,
+  setUserRegistration,
 };
 
-export const regReducer = createReducer<IAppState, ActionType<typeof actions>>(
-  defaultState
-)
-  .handleAction(setMail, (state, { payload }) => ({
+export const registrationReducer = createReducer<
+  IRegistrationReducer,
+  ActionType<typeof actions>
+>(defaultState)
+  .handleAction(setMailRegistration, (state, { payload }) => ({
     ...state,
     mail: payload,
   }))
-  .handleAction(setPassword, (state, { payload }) => ({
+  .handleAction(setPasswordRegistration, (state, { payload }) => ({
     ...state,
     password: payload,
   }))
-  .handleAction(setPasswordConfirm, (state, { payload }) => ({
+  .handleAction(setPasswordConfirmRegistration, (state, { payload }) => ({
     ...state,
     passwordConfirm: payload,
   }))
-  .handleAction(setUser, (state, { payload }) => ({
+  .handleAction(setUserRegistration, (state, { payload }) => ({
     ...state,
     user: payload,
   }));
