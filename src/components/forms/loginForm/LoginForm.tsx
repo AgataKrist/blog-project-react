@@ -8,11 +8,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { getLoginState } from "../../../core/selectors/appSelectors";
 import { validateEmail, validatePassword } from "../../../helper";
 import { setMailLogin, setPasswordLogin } from "../../../core";
+import { useHistory } from "react-router-dom";
 
 export const LoginForm = () => {
   const [typePass, setTypePass] = useState("password");
 
   const { mail, password } = useSelector(getLoginState);
+  const history = useHistory();
+
+  const handleHistory = () => {
+    history.push("/");
+  };
 
   const isMail = validateEmail(mail);
   const isPassword = validatePassword(password);
@@ -68,7 +74,11 @@ export const LoginForm = () => {
           type={typePass}
         />
       </div>
-      <Button disabled={!(isMail && isPassword)} text={"Login"} />
+      <Button
+        handleHistory={handleHistory}
+        disabled={!(isMail && isPassword)}
+        text={"Login"}
+      />
       <SignAbout
         text={"Forgot your password?"}
         link={"Reset Password"}

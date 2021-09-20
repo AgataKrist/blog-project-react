@@ -14,6 +14,7 @@ import {
   setPasswordConfirmRegistration,
   setUserRegistration,
 } from "../../../core";
+import { useHistory } from "react-router-dom";
 
 export const RegistrationForm = () => {
   const [typePass, setTypePass] = useState("password");
@@ -21,6 +22,12 @@ export const RegistrationForm = () => {
 
   const { user, mail, passwordConfirm, password } =
     useSelector(getRegistrationState);
+
+  const history = useHistory();
+
+  const handleHistory = () => {
+    history.push("/regConfirm");
+  };
 
   const isUser = validateName(user);
   const isMail = validateEmail(mail);
@@ -63,7 +70,7 @@ export const RegistrationForm = () => {
   useEffect(() => {
     return () => {
       dispatch(setUserRegistration(""));
-      dispatch(setMailRegistration(""));
+      // dispatch(setMailRegistration(""));
       dispatch(setPasswordRegistration(""));
       dispatch(setPasswordConfirmRegistration(""));
     };
@@ -125,6 +132,7 @@ export const RegistrationForm = () => {
         />
       </div>
       <Button
+        handleHistory={handleHistory}
         disabled={!(isUser && isMail && isPasswordConfirm() && isPassword)}
         text={"Login"}
       />
