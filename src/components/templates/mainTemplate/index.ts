@@ -1,0 +1,1 @@
+import { MainTamplate } from "./MainTamplate";

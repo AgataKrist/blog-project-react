@@ -1,0 +1,1 @@
+export { SignTemplate } from "./SignTemplate";

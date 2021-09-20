@@ -1,0 +1,12 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.title {
+  font-size: 45px;
+  font-weight: bold;
+  letter-spacing: 3%;
+  color: #016efc;
+}
