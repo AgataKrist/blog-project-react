@@ -2,15 +2,15 @@ import { createAction } from "typesafe-actions";
 
 import { ACTIONS } from "./constants";
 
-export const setMailRegistration = createAction(
-  ACTIONS.SET_MAIL_ACTION
+export const setMailRegistrationAction = createAction(
+	ACTIONS.SET_MAIL
 )<string>();
-export const setPasswordRegistration = createAction(
-  ACTIONS.SET_PASSWORD_ACTION
+export const setPasswordRegistrationAction = createAction(
+	ACTIONS.SET_PASSWORD
 )<string>();
-export const setPasswordConfirmRegistration = createAction(
-  ACTIONS.SET_PASSWORD_CONFIRM_ACTION
+export const setPasswordConfirmRegistrationAction = createAction(
+	ACTIONS.SET_PASSWORD_CONFIRM
 )<string>();
-export const setUserRegistration = createAction(
-  ACTIONS.SET_USER_ACTION
+export const setUserRegistrationAction = createAction(
+	ACTIONS.SET_USER
 )<string>();

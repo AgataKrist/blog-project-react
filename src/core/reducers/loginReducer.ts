@@ -1,31 +1,31 @@
 import { ActionType, createReducer } from "typesafe-actions";
 
-import { setMailLogin, setPasswordLogin } from "../actions";
+import { setMailLoginAction, setPasswordLogin } from "../actions";
 
 export interface ILoginState {
-  mail: string;
-  password: string;
+	mail: string;
+	password: string;
 }
 
 const defaultState: ILoginState = {
-  mail: "",
-  password: "",
+	mail: "",
+	password: "",
 };
 
 const actions = {
-  setMailLogin,
-  setPasswordLogin,
+	setMailLoginAction,
+	setPasswordLogin,
 };
 
 export const loginReducer = createReducer<
-  ILoginState,
-  ActionType<typeof actions>
+	ILoginState,
+	ActionType<typeof actions>
 >(defaultState)
-  .handleAction(setMailLogin, (state, { payload }) => ({
-    ...state,
-    mail: payload,
-  }))
-  .handleAction(setPasswordLogin, (state, { payload }) => ({
-    ...state,
-    password: payload,
-  }));
+	.handleAction(setMailLoginAction, (state, { payload }) => ({
+		...state,
+		mail: payload,
+	}))
+	.handleAction(setPasswordLogin, (state, { payload }) => ({
+		...state,
+		password: payload,
+	}));

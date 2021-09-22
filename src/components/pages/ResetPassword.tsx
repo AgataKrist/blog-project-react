@@ -10,63 +10,67 @@ import { SignAbout } from "../atoms/signAbout/SignAbout";
 import { useDispatch, useSelector } from "react-redux";
 import { getResetPasswordState } from "../../core/selectors/appSelectors";
 import { validateEmail } from "../../helper";
-import { setMailResetPassword } from "../../core/actions/resetPasswordActions";
+import { setMailResetPasswordAction } from "../../core/actions/resetPasswordActions";
 
 export const ResetPassword = () => {
-  const description = (mb: string) => {
-    return (
-      <div style={{ marginBottom: mb, textAlign: "center" }}>
-        <p className={s.text}>
-          Please enter the email <br /> for your account
-        </p>
-      </div>
-    );
-  };
-  const history = useHistory();
-  const { mailReset } = useSelector(getResetPasswordState);
-  const handleHistory = () => {
-    history.push("resetPassAnswer");
-  };
-  const isMail = validateEmail(mailReset);
+	const description = (mb: string) => {
+		return (
+			<div style={{ marginBottom: mb, textAlign: "center" }}>
+				<p className={s.text}>
+					Please enter the email <br /> for your account
+				</p>
+			</div>
+		);
+	};
+	const history = useHistory();
+	const { mailReset } = useSelector(getResetPasswordState);
+	const handleHistory = () => {
+		history.push("resetPassAnswer");
+	};
+	const isMail = validateEmail(mailReset);
 
-  const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
-  const handleSetMail = useCallback(
-    (value: string) => {
-      dispatch(setMailResetPassword(value));
-    },
-    [dispatch, mailReset]
-  );
+	const handleSetMail = useCallback(
+		(value: string) => {
+			dispatch(setMailResetPasswordAction(value));
+		},
+		[dispatch]
+	);
 
-  useEffect(() => {
-    return () => {
-      // dispatch(setMailResetPassword(mail));
-    };
-  }, [dispatch]);
-  return (
-    <div>
-      <SignTemplate
-        main={
-          <>
-            <Title title={"Reset password"} />
-            {description("20px")}
-            <Input
-              value={mailReset}
-              isValid={isMail}
-              onChange={handleSetMail}
-              label={"Email"}
-              img={ok}
-              type={"text"}
-            />
-            <Button
-              disabled={!isMail}
-              handleHistory={handleHistory}
-              text={"Reset"}
-            />
-            <SignAbout text={"Return to "} link={"Login"} to={"/login"} />
-          </>
-        }
-      />
-    </div>
-  );
+	// useEffect(() => {
+	// 	return () => {
+	// 		// dispatch(setMailResetPasswordAction(""));
+	// 	};
+	// }, [dispatch]);
+	return (
+		<div>
+			<SignTemplate
+				main={
+					<>
+						<Title title={"Reset password"} />
+						{description("20px")}
+						<Input
+							value={mailReset}
+							isValid={isMail}
+							onChange={handleSetMail}
+							label={"Email"}
+							img={ok}
+							type={"text"}
+						/>
+						<Button
+							disabled={!isMail}
+							handleHistory={handleHistory}
+							text={"Reset"}
+						/>
+						<SignAbout
+							text={"Return to "}
+							link={"Login"}
+							to={"/login"}
+						/>
+					</>
+				}
+			/>
+		</div>
+	);
 };
