@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "../../atoms/button/Button";
 import { Input } from "../../atoms/input";
 import { SignAbout } from "../../atoms/signAbout/SignAbout";
@@ -26,7 +26,7 @@ export const RegistrationForm = () => {
 	const history = useHistory();
 
 	const handleHistory = () => {
-		history.push("/regConfirm");
+		history.push("/RegistrationConfirm");
 	};
 
 	const isUser = validateName(user);
@@ -34,38 +34,12 @@ export const RegistrationForm = () => {
 	const isPassword = validatePassword(password);
 	const isPasswordConfirm = () => {
 		return !!(
-			validatePassword(passwordConfirm) && passwordConfirm === password
+			validatePassword(passwordConfirm) &&
+			passwordConfirm.trim() === password.trim()
 		);
 	};
 
 	const dispatch = useDispatch();
-
-	const handlerSetUser = useCallback(
-		(value: string) => {
-			dispatch(setUserRegistrationAction(value));
-		},
-		[dispatch]
-	);
-
-	const handlerSetPassword = useCallback(
-		(value: string) => {
-			dispatch(setPasswordRegistrationAction(value));
-		},
-		[dispatch]
-	);
-
-	const handlerSetPasswordConfirm = useCallback(
-		(value: string) => {
-			dispatch(setPasswordConfirmRegistrationAction(value));
-		},
-		[dispatch]
-	);
-	const handlerSetEmail = useCallback(
-		(value: string) => {
-			dispatch(setMailRegistrationAction(value));
-		},
-		[dispatch]
-	);
 
 	useEffect(() => {
 		return () => {
@@ -97,7 +71,10 @@ export const RegistrationForm = () => {
 			<div>
 				<Input
 					value={user}
-					onChange={handlerSetUser}
+					// onChange={handlerSetUser}
+					onChange={(text: string) => {
+						dispatch(setUserRegistrationAction(text));
+					}}
 					isValid={isUser}
 					label={"User Name"}
 					img={ok}
@@ -105,7 +82,10 @@ export const RegistrationForm = () => {
 				/>
 				<Input
 					value={mail}
-					onChange={handlerSetEmail}
+					// onChange={handlerSetEmail}
+					onChange={(text: string) => {
+						dispatch(setMailRegistrationAction(text.trim()));
+					}}
 					isValid={isMail}
 					label={"Email"}
 					img={ok}
@@ -114,7 +94,10 @@ export const RegistrationForm = () => {
 				<Input
 					value={password}
 					handleShowPass={handleShowPass}
-					onChange={handlerSetPassword}
+					// onChange={handlerSetPassword}
+					onChange={(text: string) => {
+						dispatch(setPasswordRegistrationAction(text.trim()));
+					}}
 					isValid={isPassword}
 					label={"Password"}
 					img={show}
@@ -123,7 +106,12 @@ export const RegistrationForm = () => {
 				<Input
 					value={passwordConfirm}
 					handleShowPass={handleShowPassConfirm}
-					onChange={handlerSetPasswordConfirm}
+					// onChange={handlerSetPasswordConfirm}
+					onChange={(text: string) => {
+						dispatch(
+							setPasswordConfirmRegistrationAction(text.trim())
+						);
+					}}
 					isValid={isPasswordConfirm()}
 					label={"Confirm Password"}
 					img={show}

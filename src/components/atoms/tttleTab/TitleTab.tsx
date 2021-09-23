@@ -14,13 +14,11 @@ export const TitleTab = ({
 }: ITitleTab) => {
 	const titlesDefault = [
 		{
-			id: "1",
 			title: "Login",
 			to: "/login",
 			isActive: isActiveLogin,
 		},
 		{
-			id: "2",
 			title: "Registration",
 			to: "/registration",
 			isActive: isActiveRegistration,
@@ -29,13 +27,10 @@ export const TitleTab = ({
 
 	return (
 		<div className={s.wrapper}>
-			{titlesDefault.map(({ id, title, isActive, to }) => (
-				<div className={s.item}>
+			{titlesDefault.map(({ title, isActive, to }) => (
+				<div key={title} className={s.item}>
 					<Link to={to} className={s.link}>
-						<h1
-							key={title}
-							className={cn(s.title, { [s.active]: isActive })}
-						>
+						<h1 className={cn(s.title, { [s.active]: isActive })}>
 							{title}
 						</h1>
 					</Link>

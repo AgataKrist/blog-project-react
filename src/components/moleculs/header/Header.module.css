@@ -1,19 +1,18 @@
 .wrapper {
-	padding: 20px 10px;
-	margin-bottom: 50px;
-	margin-top: -100px;
+	margin-bottom: 40px;
 }
 
 .background {
 	background-color: #c8dafd;
 	position: relative;
-	top: 73px;
+	/* top: 73px; */
 	width: calc(100% + 100px);
 	left: -12px;
 	transform: translateX(3000px);
-	height: 91px;
+	height: 70px;
 	z-index: -1;
 	transition: 0.3s linear;
+	box-shadow: 3px 3px 3px #abbbdb;
 }
 .background.opened {
 	transform: translateX(0px);
@@ -26,8 +25,9 @@
 	transition: 0.3s linear;
 	background-color: #c8dafd;
 	height: 100%;
-	margin-top: 20px;
 	margin-left: -10px;
+	margin-top: -20px;
+	box-shadow: 3px 3px 3px #abbbdb;
 }
 .opened {
 	transform: translateX(0);
@@ -48,5 +48,5 @@
 	transition-duration: 0.25s;
 }
 .menu__item:hover {
-	background-color: #cfd8dc;
+	background-color: #abbbdb;
 }

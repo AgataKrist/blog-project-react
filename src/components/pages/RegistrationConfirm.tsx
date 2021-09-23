@@ -1,35 +1,25 @@
 import React, { useEffect } from "react";
 import { SignTemplate } from "../templates/signTemplate";
 import { Button } from "../atoms/button/Button";
-import { Title } from "./../atoms/title/Title";
+import { Title } from "../atoms/title/Title";
 import s from "../atoms/signAbout/SignAbout.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { getRegistrationState } from "./../../core/selectors/appSelectors";
-import { useHistory } from "react-router-dom";
-import {
-	setMailRegistrationAction,
-	setPasswordConfirmRegistrationAction,
-	setPasswordRegistrationAction,
-} from "../../core";
+import { getRegistrationState } from "../../core/selectors/appSelectors";
+import { useHistory } from "react-router";
+import { setMailRegistrationAction } from "../../core";
 
-export const RegConfirm = () => {
+export const RegistrationConfirm = () => {
 	const { mail } = useSelector(getRegistrationState);
-
 	const history = useHistory();
-
-	const handleHistory = () => {
+	const dispatch = useDispatch();
+	const handlerChangePage = () => {
 		history.push("/");
 	};
-
-	const dispatch = useDispatch();
-
 	useEffect(() => {
 		return () => {
-			dispatch(setPasswordRegistrationAction(""));
-			dispatch(setPasswordConfirmRegistrationAction(""));
 			dispatch(setMailRegistrationAction(""));
 		};
-	}, [dispatch]);
+	}, [dispatch, mail]);
 
 	const description = (mb: string) => {
 		return (
@@ -54,20 +44,13 @@ export const RegConfirm = () => {
 					<>
 						<Title title={"Registartion Confirmation"} />
 						{description("20px")}
-						<Button handleHistory={handleHistory} text={"Home"} />
+						<Button
+							handleHistory={handlerChangePage}
+							text={"Home"}
+						/>
 					</>
 				}
 			/>
 		</div>
 	);
 };
-function dispatch(arg0: any) {
-	throw new Error("Function not implemented.");
-}
-
-function setMaiPassword(arg0: string): any {
-	throw new Error("Function not implemented.");
-}
-function setPassword(arg0: string): any {
-	throw new Error("Function not implemented.");
-}

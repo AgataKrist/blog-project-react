@@ -3,7 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import "./App.css";
 import { LoginPage } from "./components/pages/LoginPage";
 import { RegistrationPage } from "./components/pages/RegistrationPage";
-import { RegConfirm } from "./components/pages/RegConfirm";
+import { RegistrationConfirm } from "./components/pages/RegistrationConfirm";
 import { ResetPassword } from "./components/pages/ResetPassword";
 import { Success } from "./components/pages/Success";
 import { ResetPasswordAnswer } from "./components/pages/ResetPassAnswer";
@@ -17,7 +17,10 @@ function App() {
 			<Route path="/login" component={LoginPage} />
 			<Route path="/reset" component={ResetPassword} />
 			<Route path="/newPassword" component={NewPassword} />
-			<Route path="/regConfirm" component={RegConfirm} />
+			<Route
+				path="/RegistrationConfirm"
+				component={RegistrationConfirm}
+			/>
 			<Route path="/resetPassAnswer" component={ResetPasswordAnswer} />
 			<Route path="/resetPass" component={ResetPassword} />
 			<Route path="/success" component={Success} />

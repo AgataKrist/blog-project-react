@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 import { useHistory } from "react-router";
 import { SignTemplate } from "../templates/signTemplate";
 import { Button } from "../atoms/button/Button";
@@ -15,7 +15,7 @@ import { setMailResetPasswordAction } from "../../core/actions/resetPasswordActi
 export const ResetPassword = () => {
 	const description = (mb: string) => {
 		return (
-			<div style={{ marginBottom: mb, textAlign: "center" }}>
+			<div style={{ marginBottom: mb }}>
 				<p className={s.text}>
 					Please enter the email <br /> for your account
 				</p>
