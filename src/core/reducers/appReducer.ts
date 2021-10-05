@@ -1,22 +1,22 @@
 import { ActionType, createReducer } from "typesafe-actions";
 
-import { setIsOpenHeader } from "../actions";
+import { setIsOpenHeaderAction } from "../actions";
 
 export interface IAppState {
-  isOpenHeader: boolean;
+	isOpenHeader: boolean;
 }
 
 const defaultState: IAppState = {
-  isOpenHeader: false,
+	isOpenHeader: false,
 };
 
 const actions = {
-  setIsOpenHeader,
+	setIsOpenHeaderAction,
 };
 
 export const appReducer = createReducer<IAppState, ActionType<typeof actions>>(
-  defaultState
-).handleAction(setIsOpenHeader, (state, { payload }) => ({
-  ...state,
-  isOpenHeader: payload,
+	defaultState
+).handleAction(setIsOpenHeaderAction, (state, { payload }) => ({
+	...state,
+	isOpenHeader: payload,
 }));

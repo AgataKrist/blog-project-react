@@ -1,27 +1,30 @@
 import { ActionType, createReducer } from "typesafe-actions";
 
-import { setMailResetPassword } from "./../actions/resetPasswordActions";
+import { setMailResetPasswordAction } from "./../actions/resetPasswordActions";
 
 export interface IResetPassword {
-  mailReset: string;
-  newPassword: string;
-  newPasswordConfirm: string;
+	mailReset: string;
+	newPassword: string;
+	newPasswordConfirm: string;
 }
 
 const defaultState: IResetPassword = {
-  mailReset: "",
-  newPassword: "",
-  newPasswordConfirm: "",
+	mailReset: "",
+	newPassword: "",
+	newPasswordConfirm: "",
 };
 
 const actions = {
-  setMailResetPassword,
+	setMailResetPasswordAction,
 };
 
 export const resetPasswordReducer = createReducer<
-  IResetPassword,
-  ActionType<typeof actions>
->(defaultState).handleAction(setMailResetPassword, (state, { payload }) => ({
-  ...state,
-  mailReset: payload,
-}));
+	IResetPassword,
+	ActionType<typeof actions>
+>(defaultState).handleAction(
+	setMailResetPasswordAction,
+	(state, { payload }) => ({
+		...state,
+		mailReset: payload,
+	})
+);

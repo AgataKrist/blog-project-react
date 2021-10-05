@@ -1,50 +1,56 @@
 import { ActionType, createReducer } from "typesafe-actions";
 
 import {
-  setMailRegistration,
-  setPasswordRegistration,
-  setPasswordConfirmRegistration,
-  setUserRegistration,
+	setMailRegistrationAction,
+	setPasswordRegistrationAction,
+	setPasswordConfirmRegistrationAction,
+	setUserRegistrationAction,
 } from "../actions";
 
 export interface IRegistrationReducer {
-  user: string;
-  mail: string;
-  password: string;
-  passwordConfirm: string;
+	user: string;
+	mail: string;
+	password: string;
+	passwordConfirm: string;
 }
 
 const defaultState: IRegistrationReducer = {
-  user: "",
-  mail: "",
-  passwordConfirm: "",
-  password: "",
+	user: "",
+	mail: "",
+	passwordConfirm: "",
+	password: "",
 };
 
 const actions = {
-  setMailRegistration,
-  setPasswordRegistration,
-  setPasswordConfirmRegistration,
-  setUserRegistration,
+	setMailRegistrationAction,
+	setPasswordRegistrationAction,
+	setPasswordConfirmRegistrationAction,
+	setUserRegistrationAction,
 };
 
 export const registrationReducer = createReducer<
-  IRegistrationReducer,
-  ActionType<typeof actions>
+	IRegistrationReducer,
+	ActionType<typeof actions>
 >(defaultState)
-  .handleAction(setMailRegistration, (state, { payload }) => ({
-    ...state,
-    mail: payload,
-  }))
-  .handleAction(setPasswordRegistration, (state, { payload }) => ({
-    ...state,
-    password: payload,
-  }))
-  .handleAction(setPasswordConfirmRegistration, (state, { payload }) => ({
-    ...state,
-    passwordConfirm: payload,
-  }))
-  .handleAction(setUserRegistration, (state, { payload }) => ({
-    ...state,
-    user: payload,
-  }));
+	.handleAction(setMailRegistrationAction, (state, { payload: mail }) => ({
+		...state,
+		mail,
+	}))
+	.handleAction(
+		setPasswordRegistrationAction,
+		(state, { payload: password }) => ({
+			...state,
+			password,
+		})
+	)
+	.handleAction(
+		setPasswordConfirmRegistrationAction,
+		(state, { payload: passwordConfirm }) => ({
+			...state,
+			passwordConfirm,
+		})
+	)
+	.handleAction(setUserRegistrationAction, (state, { payload: user }) => ({
+		...state,
+		user,
+	}));
