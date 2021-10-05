@@ -23,7 +23,7 @@ function App() {
 			/>
 			<Route path="/resetPassAnswer" component={ResetPasswordAnswer} />
 			<Route path="/resetPass" component={ResetPassword} />
-			<Route path="/success" component={Success} />
+			<Route path="/activate/:uid/:token" exact component={Success} />
 			<Route path="/registration" component={RegistrationPage} />
 		</Switch>
 	);

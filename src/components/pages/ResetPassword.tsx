@@ -24,7 +24,7 @@ export const ResetPassword = () => {
 	};
 	const history = useHistory();
 	const { mailReset } = useSelector(getResetPasswordState);
-	const handleHistory = () => {
+	const sendData = () => {
 		history.push("resetPassAnswer");
 	};
 	const isMail = validateEmail(mailReset);
@@ -60,7 +60,7 @@ export const ResetPassword = () => {
 						/>
 						<Button
 							disabled={!isMail}
-							handleHistory={handleHistory}
+							sendData={sendData}
 							text={"Reset"}
 						/>
 						<SignAbout

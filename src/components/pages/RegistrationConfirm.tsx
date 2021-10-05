@@ -6,20 +6,28 @@ import s from "../atoms/signAbout/SignAbout.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { getRegistrationState } from "../../core/selectors/appSelectors";
 import { useHistory } from "react-router";
-import { setMailRegistrationAction } from "../../core";
+import {
+	sendRegistrationDatSuccessAction,
+	setMailRegistrationAction,
+} from "../../core/actions";
 
 export const RegistrationConfirm = () => {
-	const { mail } = useSelector(getRegistrationState);
+	const { email } = useSelector(getRegistrationState);
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const handlerChangePage = () => {
+		dispatch(
+			setMailRegistrationAction({
+				value: "",
+				isValid: true,
+			})
+		);
 		history.push("/");
 	};
 	useEffect(() => {
-		return () => {
-			dispatch(setMailRegistrationAction(""));
-		};
-	}, [dispatch, mail]);
+		dispatch(sendRegistrationDatSuccessAction(false));
+		return () => {};
+	}, [dispatch]);
 
 	const description = (mb: string) => {
 		return (
@@ -29,8 +37,8 @@ export const RegistrationConfirm = () => {
 				<p className={s.text}>
 					Please activate your account with <br /> the activation link
 					in the email
-					<a href={`mailto:${mail}`} className={s.link}>
-						{mail}
+					<a href={`mailto:${email}`} className={s.link}>
+						{email.value}
 					</a>
 				</p>
 				<p className={s.text}>Please, check your email</p>
@@ -44,10 +52,7 @@ export const RegistrationConfirm = () => {
 					<>
 						<Title title={"Registartion Confirmation"} />
 						{description("20px")}
-						<Button
-							handleHistory={handlerChangePage}
-							text={"Home"}
-						/>
+						<Button sendData={handlerChangePage} text={"Home"} />
 					</>
 				}
 			/>

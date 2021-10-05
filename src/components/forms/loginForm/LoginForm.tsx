@@ -7,23 +7,38 @@ import show from "../../../assets/show.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { getLoginState } from "../../../core/selectors/appSelectors";
 import { validateEmail, validatePassword } from "../../../helper";
-import { setMailLoginAction, setPasswordLogin } from "../../../core";
+import {
+	sendLoginDataAction,
+	setMailLoginAction,
+	setPasswordLogin,
+} from "../../../core";
 import { useHistory } from "react-router-dom";
 
 export const LoginForm = () => {
 	const [typePass, setTypePass] = useState("password");
 
-	const { mail, password } = useSelector(getLoginState);
+	const { mail, password, error, isSuccess } = useSelector(getLoginState);
 	const history = useHistory();
-
-	const handleHistory = () => {
-		history.push("/");
-	};
 
 	const isMail = validateEmail(mail);
 	const isPassword = validatePassword(password);
+	useEffect(() => {
+		if (isSuccess) history.push("/");
+		return () => {};
+	}, [history, isSuccess]);
 
 	const dispatch = useDispatch();
+	const sendData = () => {
+		if (isMail && isPassword) {
+			dispatch(
+				sendLoginDataAction({
+					email: mail,
+					password,
+				})
+			);
+		}
+		// history.push("/");
+	};
 
 	const handleSetPassword = useCallback(
 		(value: string) => {
@@ -74,8 +89,9 @@ export const LoginForm = () => {
 					type={typePass}
 				/>
 			</div>
+			{error}
 			<Button
-				handleHistory={handleHistory}
+				sendData={sendData}
 				disabled={!(isMail && isPassword)}
 				text={"Login"}
 			/>

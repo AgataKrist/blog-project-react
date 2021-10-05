@@ -1,16 +1,27 @@
+import { IActivationPayload } from "./../../types/user";
 import { createAction } from "typesafe-actions";
-
 import { ACTIONS } from "./constants";
+import { IInput, IUserAuth } from "../../types/user";
 
 export const setMailRegistrationAction = createAction(
 	ACTIONS.SET_MAIL
-)<string>();
+)<IInput>();
 export const setPasswordRegistrationAction = createAction(
 	ACTIONS.SET_PASSWORD
-)<string>();
+)<IInput>();
 export const setPasswordConfirmRegistrationAction = createAction(
 	ACTIONS.SET_PASSWORD_CONFIRM
-)<string>();
-export const setUserRegistrationAction = createAction(
-	ACTIONS.SET_USER
-)<string>();
+)<IInput>();
+export const setUserRegistrationAction = createAction(ACTIONS.SET_USER)<any>();
+export const sendRegistrationDataAction = createAction(
+	ACTIONS.SEND_REGISTRATION_DATA
+)<IUserAuth>();
+export const sendRegistrationDatSuccessAction = createAction(
+	ACTIONS.SEND_REGISTRATIONN_DATA_SUCCESS
+)<boolean>();
+export const sendRegistrationDataErrorAction = createAction(
+	ACTIONS.SEND_REGISTRATIONN_DATA_ERROR
+)<any | null>();
+export const sendRegistrationConfirmationAction = createAction(
+	ACTIONS.SEND_REGISTRATIONN_CONFIRMATION
+)<IActivationPayload>();
