@@ -13,7 +13,7 @@ export const ResetPasswordAnswer = () => {
 	const history = useHistory();
 	const dispatch = useDispatch();
 
-	const handleHistory = () => {
+	const sendData = () => {
 		history.push("/");
 	};
 	const description = (mb: string) => {
@@ -42,7 +42,7 @@ export const ResetPasswordAnswer = () => {
 					<>
 						<Title title={"Reset Password"} />
 						{description("20px")}
-						<Button handleHistory={handleHistory} text={"Home"} />
+						<Button sendData={sendData} text={"Home"} />
 					</>
 				}
 			/>

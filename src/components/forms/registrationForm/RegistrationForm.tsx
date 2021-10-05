@@ -6,13 +6,19 @@ import ok from "../../../assets/ok.svg";
 import show from "../../../assets/show.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { getRegistrationState } from "../../../core/selectors/appSelectors";
-import { validateEmail, validatePassword, validateName } from "../../../helper";
+import {
+	isPasswordConfirm,
+	validateEmail,
+	validateName,
+	validatePassword,
+} from "../../../helper";
 
 import {
 	setMailRegistrationAction,
 	setPasswordRegistrationAction,
 	setPasswordConfirmRegistrationAction,
 	setUserRegistrationAction,
+	sendRegistrationDataAction,
 } from "../../../core";
 import { useHistory } from "react-router-dom";
 
@@ -20,110 +26,138 @@ export const RegistrationForm = () => {
 	const [typePass, setTypePass] = useState("password");
 	const [typePassConf, setTypePassConf] = useState("password");
 
-	const { user, mail, passwordConfirm, password } =
+	const { username, email, passwordConfirm, password, error, succes } =
 		useSelector(getRegistrationState);
 
 	const history = useHistory();
-
-	const handleHistory = () => {
-		history.push("/RegistrationConfirm");
-	};
-
-	const isUser = validateName(user);
-	const isMail = validateEmail(mail);
-	const isPassword = validatePassword(password);
-	const isPasswordConfirm = () => {
-		return !!(
-			validatePassword(passwordConfirm) &&
-			passwordConfirm.trim() === password.trim()
-		);
-	};
-
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		return () => {
-			dispatch(setUserRegistrationAction(""));
-			dispatch(setPasswordRegistrationAction(""));
-			dispatch(setPasswordConfirmRegistrationAction(""));
-		};
-	}, [dispatch]);
+		if (succes) {
+			history.push("/RegistrationConfirm");
+		}
+		return () => {};
+	}, [succes, history]);
+
+	const sendData = () => {
+		dispatch(
+			sendRegistrationDataAction({
+				username: username.value,
+				password: password.value,
+				email: email.value,
+			})
+		);
+	};
 
 	const handleShowPass = (type: string) => {
-		if (type === "password") {
-			setTypePass("text");
-		}
-		if (type === "text") {
-			setTypePass("password");
-		}
+		setTypePass(type === "password" ? "text" : "password");
 	};
 	const handleShowPassConfirm = (type: string) => {
-		if (type === "password") {
-			setTypePassConf("text");
-		}
-		if (type === "text") {
-			setTypePassConf("password");
-		}
+		setTypePassConf(type === "password" ? "text" : "password");
 	};
 
 	return (
 		<>
 			<div>
 				<Input
-					value={user}
-					// onChange={handlerSetUser}
+					value={username.value}
 					onChange={(text: string) => {
-						dispatch(setUserRegistrationAction(text));
+						dispatch(
+							setUserRegistrationAction({
+								value: text.trim(),
+								isValid: validateName(text),
+							})
+						);
 					}}
-					isValid={isUser}
+					isValid={username.isValid}
 					label={"User Name"}
 					img={ok}
 					type={"text"}
+					error={error?.username}
+					isShowImg={
+						username.isValid && username.value !== "" ? true : false
+					}
 				/>
+
 				<Input
-					value={mail}
-					// onChange={handlerSetEmail}
+					value={email.value}
 					onChange={(text: string) => {
-						dispatch(setMailRegistrationAction(text.trim()));
+						dispatch(
+							setMailRegistrationAction({
+								value: text.trim(),
+								isValid: validateEmail(text),
+							})
+						);
 					}}
-					isValid={isMail}
+					isValid={email.isValid}
 					label={"Email"}
 					img={ok}
 					type={"text"}
+					error={error?.email}
+					isShowImg={
+						email.isValid && email.value !== "" ? true : false
+					}
 				/>
 				<Input
-					value={password}
+					value={password.value}
 					handleShowPass={handleShowPass}
-					// onChange={handlerSetPassword}
 					onChange={(text: string) => {
-						dispatch(setPasswordRegistrationAction(text.trim()));
+						dispatch(
+							setPasswordRegistrationAction({
+								value: text.trim(),
+								isValid: validatePassword(text),
+							})
+						);
 					}}
-					isValid={isPassword}
+					isValid={password.isValid}
 					label={"Password"}
 					img={show}
 					type={typePass}
+					error={error?.password}
+					isShowImg={
+						password.isValid && password.value !== "" ? true : false
+					}
 				/>
 				<Input
-					value={passwordConfirm}
+					value={passwordConfirm.value}
 					handleShowPass={handleShowPassConfirm}
-					// onChange={handlerSetPasswordConfirm}
 					onChange={(text: string) => {
 						dispatch(
-							setPasswordConfirmRegistrationAction(text.trim())
+							setPasswordConfirmRegistrationAction({
+								value: text.trim(),
+								isValid: isPasswordConfirm(
+									text,
+									password.value
+								),
+							})
 						);
 					}}
-					isValid={isPasswordConfirm()}
+					isValid={passwordConfirm.value === password.value}
 					label={"Confirm Password"}
 					img={show}
 					type={typePassConf}
+					isShowImg={
+						passwordConfirm.isValid && passwordConfirm.value !== ""
+							? true
+							: false
+					}
 				/>
 			</div>
 			<Button
-				handleHistory={handleHistory}
+				sendData={sendData}
 				disabled={
-					!(isUser && isMail && isPasswordConfirm() && isPassword)
+					!(
+						username.isValid &&
+						username.value !== "" &&
+						email.isValid &&
+						email.value !== "" &&
+						password.isValid &&
+						password.value !== "" &&
+						passwordConfirm.isValid &&
+						passwordConfirm.value !== ""
+					)
 				}
-				text={"Login"}
+				text={"Registration"}
 			/>
 			<SignAbout
 				text={"If you have account, you can"}

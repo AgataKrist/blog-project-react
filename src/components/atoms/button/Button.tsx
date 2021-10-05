@@ -5,14 +5,14 @@ import cn from "classnames";
 interface IButton {
 	text: string;
 	disabled?: boolean;
-	handleHistory?: () => void;
+	sendData?: () => void;
 }
-export const Button = ({ text, disabled, handleHistory }: IButton) => {
+export const Button = ({ text, disabled, sendData }: IButton) => {
 	return (
 		<div className={s.wrapper}>
 			<button
 				disabled={disabled}
-				onClick={handleHistory}
+				onClick={sendData}
 				className={cn(s.button, { [s.disabled]: disabled })}
 			>
 				{text}
