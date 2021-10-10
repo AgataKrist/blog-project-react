@@ -7,6 +7,7 @@ export interface IUserLoginAuth {
 	password: string;
 	email: string;
 }
+
 export interface IError {
 	username: string | null;
 	password: string | null;

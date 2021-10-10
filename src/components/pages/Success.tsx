@@ -3,24 +3,30 @@ import { SignTemplate } from "../templates/signTemplate";
 import { Button } from "../atoms/button/Button";
 import { Title } from "./../atoms/title/Title";
 import s from "../atoms/signAbout/SignAbout.module.css";
-import { useParams } from "react-router";
-import { useDispatch } from "react-redux";
+import { useHistory, useParams } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
 import { sendRegistrationConfirmationAction } from "../../core";
+import { getRegistrationState } from "../../core/selectors/appSelectors";
 
-interface ISuccess {
+interface Isuccess {
 	text: string;
 }
 
-export const Success = ({ text }: ISuccess) => {
+export const Success = ({ text }: Isuccess) => {
+	const { isPreloader, success } = useSelector(getRegistrationState);
+	const history = useHistory();
+
 	const params = useParams() as any;
 	const dispatch = useDispatch();
-	console.log(`params#####`, params);
 	const description = (mb: string) => {
 		return (
 			<div style={{ marginBottom: mb }}>
 				<p className={s.text}>{text}</p>
 			</div>
 		);
+	};
+	const toLogin = () => {
+		history.push("/login");
 	};
 
 	useEffect(() => {
@@ -30,15 +36,32 @@ export const Success = ({ text }: ISuccess) => {
 	}, [dispatch, params, params?.token, params?.uid]);
 	return (
 		<div>
-			<SignTemplate
-				main={
-					<>
-						<Title title={"Success"} />
-						{description("20px")}
-						<Button text={"Login"} />
-					</>
-				}
-			/>
+			{isPreloader ? (
+				<div className={s.container}>
+					<div className={s.circle}></div>
+					<div className={s.circle}></div>
+					<div className={s.circle}></div>
+					<div className={s.circle}></div>
+				</div>
+			) : (
+				<SignTemplate
+					main={
+						<>
+							<Title
+								title={
+									success
+										? "success"
+										: "sorry, somethingWrong"
+								}
+							/>
+							{description("20px")}
+							{success && (
+								<Button sendData={toLogin} text={"Login"} />
+							)}
+						</>
+					}
+				/>
+			)}
 		</div>
 	);
 };

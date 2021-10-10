@@ -7,7 +7,8 @@ import {
 	setPasswordConfirmRegistrationAction,
 	setUserRegistrationAction,
 	sendRegistrationDataErrorAction,
-	sendRegistrationDatSuccessAction,
+	sendRegistrationDataSuccessAction,
+	sendRegistrationIsPreloaderAction,
 } from "../actions";
 
 export interface IRegistrationReducer {
@@ -16,7 +17,8 @@ export interface IRegistrationReducer {
 	password: IInput;
 	passwordConfirm: IInput;
 	error: IError;
-	succes: boolean;
+	success: boolean;
+	isPreloader: boolean;
 }
 
 const defaultState: IRegistrationReducer = {
@@ -41,7 +43,8 @@ const defaultState: IRegistrationReducer = {
 		email: null,
 		password: null,
 	},
-	succes: false,
+	success: false,
+	isPreloader: true,
 };
 const actions = {
 	setMailRegistrationAction,
@@ -49,7 +52,8 @@ const actions = {
 	setPasswordConfirmRegistrationAction,
 	setUserRegistrationAction,
 	sendRegistrationDataErrorAction,
-	sendRegistrationDatSuccessAction,
+	sendRegistrationDataSuccessAction,
+	sendRegistrationIsPreloaderAction,
 };
 
 export const registrationReducer = createReducer<
@@ -89,9 +93,16 @@ export const registrationReducer = createReducer<
 		})
 	)
 	.handleAction(
-		sendRegistrationDatSuccessAction,
-		(state, { payload: succes }) => ({
+		sendRegistrationDataSuccessAction,
+		(state, { payload: success }) => ({
 			...state,
-			succes,
+			success,
+		})
+	)
+	.handleAction(
+		sendRegistrationIsPreloaderAction,
+		(state, { payload: isPreloader }) => ({
+			...state,
+			isPreloader,
 		})
 	);

@@ -47,13 +47,13 @@ export const Header = () => {
 					</Link>
 				</li>
 				<li>
-					<Link className={s.menu__item} to="/registration">
-						Registration
+					<Link className={s.menu__item} to="/allPosts">
+						All post
 					</Link>
 				</li>
 				<li>
-					<Link className={s.menu__item} to="/registration">
-						Registration
+					<Link className={s.menu__item} to="/myPosts">
+						My posts
 					</Link>
 				</li>
 			</ul>

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "../../atoms/button/Button";
 import { Input } from "../../atoms/input";
 import { SignAbout } from "../../atoms/signAbout/SignAbout";
@@ -9,19 +9,20 @@ import { getLoginState } from "../../../core/selectors/appSelectors";
 import { validateEmail, validatePassword } from "../../../helper";
 import {
 	sendLoginDataAction,
+	sendLoginDataErrorAction,
 	setMailLoginAction,
-	setPasswordLogin,
+	setPasswordLoginAction,
 } from "../../../core";
 import { useHistory } from "react-router-dom";
 
 export const LoginForm = () => {
 	const [typePass, setTypePass] = useState("password");
 
-	const { mail, password, error, isSuccess } = useSelector(getLoginState);
+	const { email, password, error, isSuccess } = useSelector(getLoginState);
 	const history = useHistory();
 
-	const isMail = validateEmail(mail);
-	const isPassword = validatePassword(password);
+	const isMail = validateEmail(email.value);
+	const isPassword = validatePassword(password.value);
 	useEffect(() => {
 		if (isSuccess) history.push("/");
 		return () => {};
@@ -32,61 +33,81 @@ export const LoginForm = () => {
 		if (isMail && isPassword) {
 			dispatch(
 				sendLoginDataAction({
-					email: mail,
-					password,
+					email: email.value,
+					password: password.value,
 				})
 			);
 		}
-		// history.push("/");
 	};
 
-	const handleSetPassword = useCallback(
-		(value: string) => {
-			dispatch(setPasswordLogin(value));
-		},
-		[dispatch]
-	);
-	const handleSetMail = useCallback(
-		(value: string) => {
-			dispatch(setMailLoginAction(value));
-		},
-		[dispatch]
-	);
-
 	useEffect(() => {
-		return () => {
-			dispatch(setPasswordLogin(""));
-			dispatch(setMailLoginAction(""));
-		};
-	}, [dispatch]);
+		if (error) {
+			dispatch(
+				setMailLoginAction({
+					value: email.value,
+					isValid: false,
+				})
+			);
+			dispatch(
+				setPasswordLoginAction({
+					value: password.value,
+					isValid: false,
+				})
+			);
+		}
+	}, [
+		dispatch,
+		email.value,
+		password.value,
+		email.isValid,
+		password.isValid,
+		error,
+	]);
 
 	const handleShowPass = (type: string) => {
-		if (type === "password") {
-			setTypePass("text");
-		}
-		if (type === "text") {
-			setTypePass("password");
-		}
+		setTypePass(type === "password" ? "text" : "password");
 	};
 	return (
 		<>
 			<div>
 				<Input
-					value={mail}
-					onChange={handleSetMail}
-					isValid={isMail}
+					value={email.value}
+					onChange={(text: string) => {
+						dispatch(
+							setMailLoginAction({
+								value: text.trim(),
+								isValid: validateEmail(text),
+							})
+						);
+						dispatch(sendLoginDataErrorAction(null));
+					}}
+					isValid={email.isValid}
 					label={"Email"}
 					img={ok}
 					type={"text"}
+					isShowImg={
+						email.isValid && email.value !== "" ? true : false
+					}
 				/>
 				<Input
-					value={password}
-					handleShowPass={handleShowPass}
-					onChange={handleSetPassword}
-					isValid={isPassword}
+					value={password.value}
+					onChange={(text: string) => {
+						dispatch(
+							setPasswordLoginAction({
+								value: text.trim(),
+								isValid: validatePassword(text),
+							})
+						);
+						dispatch(sendLoginDataErrorAction(null));
+					}}
+					isValid={password.isValid}
 					label={"Password"}
 					img={show}
 					type={typePass}
+					isShowImg={
+						password.isValid && password.value !== "" ? true : false
+					}
+					handleShowPass={handleShowPass}
 				/>
 			</div>
 			{error}
@@ -96,8 +117,8 @@ export const LoginForm = () => {
 				text={"Login"}
 			/>
 			<SignAbout
-				text={"Forgot your password?"}
-				link={"Reset Password"}
+				text={"MAIL:homep63238@xeiex.com"}
+				link={"password: HardPassword"}
 				to={"/reset"}
 			/>
 		</>

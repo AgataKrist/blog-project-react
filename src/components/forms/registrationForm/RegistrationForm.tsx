@@ -19,6 +19,7 @@ import {
 	setPasswordConfirmRegistrationAction,
 	setUserRegistrationAction,
 	sendRegistrationDataAction,
+	sendRegistrationDataErrorAction,
 } from "../../../core";
 import { useHistory } from "react-router-dom";
 
@@ -26,18 +27,55 @@ export const RegistrationForm = () => {
 	const [typePass, setTypePass] = useState("password");
 	const [typePassConf, setTypePassConf] = useState("password");
 
-	const { username, email, passwordConfirm, password, error, succes } =
+	const { username, email, passwordConfirm, password, error, success } =
 		useSelector(getRegistrationState);
 
 	const history = useHistory();
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		if (succes) {
+		if (error.username) {
+			dispatch(
+				setUserRegistrationAction({
+					value: username.value,
+					isValid: false,
+				})
+			);
+		}
+		if (error.email) {
+			dispatch(
+				setMailRegistrationAction({
+					value: email.value,
+					isValid: false,
+				})
+			);
+		}
+		if (error.password) {
+			dispatch(
+				setPasswordRegistrationAction({
+					value: password.value,
+					isValid: false,
+				})
+			);
+		}
+		if (success) {
 			history.push("/RegistrationConfirm");
 		}
 		return () => {};
-	}, [succes, history]);
+	}, [
+		dispatch,
+		success,
+		history,
+		error,
+		error.username,
+		username.isValid,
+		error.email,
+		email.isValid,
+		error.password,
+		password.value,
+		email.value,
+		username.value,
+	]);
 
 	const sendData = () => {
 		dispatch(
@@ -68,6 +106,12 @@ export const RegistrationForm = () => {
 								isValid: validateName(text),
 							})
 						);
+						dispatch(
+							sendRegistrationDataErrorAction({
+								...error,
+								username: null,
+							})
+						);
 					}}
 					isValid={username.isValid}
 					label={"User Name"}
@@ -88,6 +132,12 @@ export const RegistrationForm = () => {
 								isValid: validateEmail(text),
 							})
 						);
+						dispatch(
+							sendRegistrationDataErrorAction({
+								...error,
+								email: null,
+							})
+						);
 					}}
 					isValid={email.isValid}
 					label={"Email"}
@@ -106,6 +156,12 @@ export const RegistrationForm = () => {
 							setPasswordRegistrationAction({
 								value: text.trim(),
 								isValid: validatePassword(text),
+							})
+						);
+						dispatch(
+							sendRegistrationDataErrorAction({
+								...error,
+								password: null,
 							})
 						);
 					}}
