@@ -132,7 +132,7 @@ export const LoginForm = () => {
 			/>
 			<SignAbout
 				text={"MAIL:homep63238@xeiex.com"}
-				link={"password: HardPassword"}
+				link={"Reset password"}
 				to={"/reset"}
 			/>
 		</>

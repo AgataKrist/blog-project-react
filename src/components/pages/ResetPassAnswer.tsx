@@ -5,11 +5,11 @@ import { Title } from "./../atoms/title/Title";
 import s from "../atoms/signAbout/SignAbout.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { getResetPasswordState } from "../../core/selectors/appSelectors";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { setMailResetPasswordAction } from "../../core/actions/resetPasswordActions";
 
 export const ResetPasswordAnswer = () => {
-	const { mailReset } = useSelector(getResetPasswordState);
+	const { email } = useSelector(getResetPasswordState);
 	const history = useHistory();
 	const dispatch = useDispatch();
 
@@ -21,8 +21,8 @@ export const ResetPasswordAnswer = () => {
 			<div style={{ marginBottom: mb, textAlign: "center" }}>
 				<p className={s.text}>
 					You will receive an email
-					<a href={`mailto:${mailReset}`} className={s.link}>
-						{mailReset}
+					<a href={`mailto:${email.value}`} className={s.link}>
+						{email.value}
 					</a>
 				</p>
 				<p className={s.text}>with a link to reset your password</p>
@@ -31,7 +31,12 @@ export const ResetPasswordAnswer = () => {
 	};
 	useEffect(() => {
 		return () => {
-			dispatch(setMailResetPasswordAction(""));
+			dispatch(
+				setMailResetPasswordAction({
+					value: "",
+					isValid: true,
+				})
+			);
 		};
 	}, [dispatch]);
 

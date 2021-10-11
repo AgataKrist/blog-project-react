@@ -3,6 +3,9 @@ export interface IUserAuth {
 	password: string;
 	email: string;
 }
+export interface IUserEmail {
+	email: string;
+}
 export interface IUserLoginAuth {
 	password: string;
 	email: string;
@@ -20,6 +23,11 @@ export interface IInput {
 export interface IActivationPayload {
 	uid: string;
 	token: string;
+}
+export interface INewPasswordPayload {
+	uid: string;
+	token: string;
+	new_password: string;
 }
 export interface IToken {
 	refresh: string;

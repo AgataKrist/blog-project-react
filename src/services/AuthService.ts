@@ -1,6 +1,6 @@
 import { GuestService } from "./GuestService";
 
-import { IUserAuth, IUserLoginAuth } from "../types/user";
+import { IUserAuth, IUserEmail, IUserLoginAuth } from "../types/user";
 
 class AuthAPIService extends GuestService {
 	public async registration(profile: IUserAuth) {
@@ -17,6 +17,12 @@ class AuthAPIService extends GuestService {
 
 	public async getUserDate(id: any) {
 		return this.get(`users/${id}`);
+	}
+	public async getResetPasswordDate(email: IUserEmail) {
+		return this.post("users/reset_password/", email);
+	}
+	public async resetPasswordConfirm(activationPayload: any) {
+		return this.post("users/reset_password_confirm/", activationPayload);
 	}
 }
 

@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router";
 import { SignTemplate } from "../templates/signTemplate";
 import { Button } from "../atoms/button/Button";
@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getResetPasswordState } from "../../core/selectors/appSelectors";
 import { validateEmail } from "../../helper";
 import { setMailResetPasswordAction } from "../../core/actions/resetPasswordActions";
+import { sendResetPasswordAction } from "../../core/actions/resetPasswordActions";
 
 export const ResetPassword = () => {
 	const description = (mb: string) => {
@@ -23,26 +24,18 @@ export const ResetPassword = () => {
 		);
 	};
 	const history = useHistory();
-	const { mailReset } = useSelector(getResetPasswordState);
-	const sendData = () => {
-		history.push("resetPassAnswer");
-	};
-	const isMail = validateEmail(mailReset);
-
+	const { email, isSuccess } = useSelector(getResetPasswordState);
 	const dispatch = useDispatch();
+	const sendData = () => {
+		dispatch(sendResetPasswordAction({ email: email.value }));
+		// history.push("resetPassAnswer");
+	};
 
-	const handleSetMail = useCallback(
-		(value: string) => {
-			dispatch(setMailResetPasswordAction(value));
-		},
-		[dispatch]
-	);
-
-	// useEffect(() => {
-	// 	return () => {
-	// 		// dispatch(setMailResetPasswordAction(""));
-	// 	};
-	// }, [dispatch]);
+	useEffect(() => {
+		if (isSuccess) {
+			history.push("/resetPasswordConfirm");
+		}
+	}, [isSuccess, history]);
 	return (
 		<div>
 			<SignTemplate
@@ -51,15 +44,27 @@ export const ResetPassword = () => {
 						<Title title={"Reset password"} />
 						{description("20px")}
 						<Input
-							value={mailReset}
-							isValid={isMail}
-							onChange={handleSetMail}
+							value={email.value}
+							isValid={email.isValid}
+							onChange={(text: string) => {
+								dispatch(
+									setMailResetPasswordAction({
+										value: text.trim(),
+										isValid: validateEmail(text),
+									})
+								);
+							}}
 							label={"Email"}
 							img={ok}
+							isShowImg={
+								email.isValid && email.value !== ""
+									? true
+									: false
+							}
 							type={"text"}
 						/>
 						<Button
-							disabled={!isMail}
+							disabled={!(email.isValid && email.value !== "")}
 							sendData={sendData}
 							text={"Reset"}
 						/>

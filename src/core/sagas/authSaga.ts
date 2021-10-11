@@ -1,4 +1,14 @@
-import { IActivationPayload, IToken, IUserLoginAuth } from "./../../types/user";
+import {
+	setIsPreloaderdAction,
+	setIsSuccesResetPasswordAction,
+} from "./../actions/resetPasswordActions";
+import {
+	IActivationPayload,
+	INewPasswordPayload,
+	IToken,
+	IUserEmail,
+	IUserLoginAuth,
+} from "./../../types/user";
 import {
 	sendRegistrationDataErrorAction,
 	sendRegistrationDataSuccessAction,
@@ -96,11 +106,44 @@ function* loginSaga({ payload: { email, password } }: Action<IUserLoginAuth>) {
 	}
 }
 
+function* sendResetPasswordSaga({ payload: { email } }: Action<IUserEmail>) {
+	console.log(`email`, email);
+	try {
+		const data: { data: any } = yield call(() =>
+			AuthService.getResetPasswordDate({ email })
+		);
+		yield put(setIsSuccesResetPasswordAction(true));
+	} catch (e: any) {
+		console.log(`{e}`, { e });
+	}
+}
+
+function* confirmationResetPasswordSaga({
+	payload: { token, uid, new_password },
+}: Action<INewPasswordPayload>) {
+	try {
+		yield call(() =>
+			AuthService.resetPasswordConfirm({
+				token,
+				uid,
+				new_password,
+			})
+		);
+		yield put(setIsPreloaderdAction(false));
+		yield put(setIsSuccesResetPasswordAction(true));
+	} catch (e: any) {}
+}
+
 export function* authSaga() {
 	yield takeEvery(ACTIONS.SEND_REGISTRATION_DATA, sendRegistrationSaga);
 	yield takeEvery(ACTIONS.SENT_LOGIN_DATA, loginSaga);
 	yield takeEvery(
 		ACTIONS.SEND_REGISTRATION_CONFIRMATION,
 		confirmationRegistrationSaga
+	);
+	yield takeEvery(ACTIONS.SEND_RESET_PASSWORD, sendResetPasswordSaga);
+	yield takeEvery(
+		ACTIONS.SEND_RESET_PASSWORD_CONFIRM,
+		confirmationResetPasswordSaga
 	);
 }
