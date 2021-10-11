@@ -1,4 +1,4 @@
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import s from "./Header.module.css";
 import cn from "classnames";
 import { Burger } from "../../atoms/burger";
@@ -10,11 +10,7 @@ import {
 	setIsOpenHeaderAction,
 	setMyPostsAction,
 } from "../../../core";
-import {
-	getAppState,
-	getLoginState,
-} from "../../../core/selectors/appSelectors";
-import { getPostsState } from "../../../core/selectors/postsSelector";
+import { getAppState } from "../../../core/selectors/appSelectors";
 
 export const Header = () => {
 	const { isOpenHeader } = useSelector(getAppState);
