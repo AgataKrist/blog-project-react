@@ -12,7 +12,7 @@ export interface IPostsState {
 	posts: IPost[] | null;
 	myPosts: IPost[] | null;
 	selectedPost: IPost[] | null;
-	myPostError: string | null;
+	myPostError: number | null;
 }
 
 const defaultState: IPostsState = {

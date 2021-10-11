@@ -24,7 +24,21 @@ export const LoginForm = () => {
 	const isMail = validateEmail(email.value);
 	const isPassword = validatePassword(password.value);
 	useEffect(() => {
-		if (isSuccess) history.push("/");
+		if (isSuccess) {
+			history.push("/");
+			dispatch(
+				setMailLoginAction({
+					value: "",
+					isValid: true,
+				})
+			);
+			dispatch(
+				setPasswordLoginAction({
+					value: "",
+					isValid: true,
+				})
+			);
+		}
 		return () => {};
 	}, [history, isSuccess]);
 

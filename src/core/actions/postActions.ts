@@ -17,6 +17,6 @@ export const getSelectedPostAction = createAction(
 export const setSelectedPostAction = createAction(ACTIONS.SET_SELECTED_POST)<
 	IPost[] | null
 >();
-export const setMyPostErrorAction = createAction(
-	ACTIONS.SET_MY_POST_ERROR
-)<string>();
+export const setMyPostErrorAction = createAction(ACTIONS.SET_MY_POST_ERROR)<
+	number | null
+>();

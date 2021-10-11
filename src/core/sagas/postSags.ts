@@ -28,6 +28,7 @@ function* getMyPostSaga() {
 		const data: { data: any } = yield call(() => PostsService.getMyPosts());
 		yield put(setMyPostsAction(data.data));
 	} catch (e: any) {
+		console.log(`object`, typeof e.response.status);
 		yield put(setMyPostErrorAction(e.response.status));
 	}
 }
