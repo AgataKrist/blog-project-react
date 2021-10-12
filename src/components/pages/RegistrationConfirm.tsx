@@ -7,8 +7,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { getRegistrationState } from "../../core/selectors/appSelectors";
 import { useHistory } from "react-router";
 import {
-	sendRegistrationDatSuccessAction,
-	setMailRegistrationAction,
+	sendRegistrationDataSuccessAction,
+	setPasswordConfirmRegistrationAction,
+	setPasswordRegistrationAction,
+	setUserRegistrationAction,
 } from "../../core/actions";
 
 export const RegistrationConfirm = () => {
@@ -16,16 +18,28 @@ export const RegistrationConfirm = () => {
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const handlerChangePage = () => {
+		history.push("/");
+	};
+	useEffect(() => {
 		dispatch(
-			setMailRegistrationAction({
+			setUserRegistrationAction({
 				value: "",
 				isValid: true,
 			})
 		);
-		history.push("/");
-	};
-	useEffect(() => {
-		dispatch(sendRegistrationDatSuccessAction(false));
+		dispatch(
+			setPasswordRegistrationAction({
+				value: "",
+				isValid: true,
+			})
+		);
+		dispatch(
+			setPasswordConfirmRegistrationAction({
+				value: "",
+				isValid: true,
+			})
+		);
+		dispatch(sendRegistrationDataSuccessAction(false));
 		return () => {};
 	}, [dispatch]);
 

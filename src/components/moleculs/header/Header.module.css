@@ -4,7 +4,7 @@
 
 .background {
 	background-color: #c8dafd;
-	position: relative;
+	/* position: relative; */
 	/* top: 73px; */
 	width: calc(100% + 100px);
 	left: -12px;

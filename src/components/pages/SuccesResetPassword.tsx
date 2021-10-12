@@ -6,18 +6,20 @@ import s from "../atoms/signAbout/SignAbout.module.css";
 import { useHistory, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { sendRegistrationConfirmationAction } from "../../core";
-import { getRegistrationState } from "../../core/selectors/appSelectors";
+import {
+	getRegistrationState,
+	getResetPasswordState,
+} from "../../core/selectors/appSelectors";
+import { sendResetPasswordConfirmationAction } from "../../core/actions/resetPasswordActions";
 
 interface Isuccess {
 	text: string;
 }
 
-export const Success = ({ text }: Isuccess) => {
-	const { isPreloader, success } = useSelector(getRegistrationState);
+export const SuccessResetPassword = ({ text }: Isuccess) => {
+	const { isPreloader, isSuccess } = useSelector(getResetPasswordState);
 	const history = useHistory();
 
-	const params = useParams() as any;
-	const dispatch = useDispatch();
 	const description = (mb: string) => {
 		return (
 			<div style={{ marginBottom: mb }}>
@@ -29,11 +31,6 @@ export const Success = ({ text }: Isuccess) => {
 		history.push("/login");
 	};
 
-	useEffect(() => {
-		if (params?.uid && params?.token) {
-			dispatch(sendRegistrationConfirmationAction(params));
-		}
-	}, [dispatch, params, params?.token, params?.uid]);
 	return (
 		<div>
 			{isPreloader ? (
@@ -49,13 +46,13 @@ export const Success = ({ text }: Isuccess) => {
 						<>
 							<Title
 								title={
-									success
-										? "success"
+									isSuccess
+										? "success, you pasword changed"
 										: "sorry, somethingWrong"
 								}
 							/>
 							{description("20px")}
-							{success && (
+							{isSuccess && (
 								<Button sendData={toLogin} text={"Login"} />
 							)}
 						</>

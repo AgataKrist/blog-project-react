@@ -1,0 +1,14 @@
+.wrapper {
+	padding: 30px;
+	background-color: #fff;
+	border-radius: 20px;
+	max-height: 700px;
+}
+.post__footer {
+	display: flex;
+	justify-content: space-between;
+}
+.img {
+	height: 30%;
+	text-align: center;
+}

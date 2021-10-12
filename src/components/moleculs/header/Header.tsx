@@ -5,7 +5,11 @@ import { Burger } from "../../atoms/burger";
 
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsOpenHeaderAction } from "../../../core";
+import {
+	sendLoginDataSuccessAction,
+	setIsOpenHeaderAction,
+	setMyPostsAction,
+} from "../../../core";
 import { getAppState } from "../../../core/selectors/appSelectors";
 
 export const Header = () => {
@@ -22,6 +26,11 @@ export const Header = () => {
 			dispatch(setIsOpenHeaderAction(false));
 		};
 	}, [dispatch]);
+	const logout = () => {
+		localStorage.clear();
+		dispatch(setMyPostsAction(null));
+		dispatch(sendLoginDataSuccessAction(false));
+	};
 
 	return (
 		<div className={cn(s.wrapper)}>
@@ -47,13 +56,18 @@ export const Header = () => {
 					</Link>
 				</li>
 				<li>
-					<Link className={s.menu__item} to="/registration">
-						Registration
+					<Link onClick={logout} className={s.menu__item} to="/login">
+						LogOut
 					</Link>
 				</li>
 				<li>
-					<Link className={s.menu__item} to="/registration">
-						Registration
+					<Link className={s.menu__item} to="/allPosts">
+						All post
+					</Link>
+				</li>
+				<li>
+					<Link className={s.menu__item} to="/myPosts">
+						My posts
 					</Link>
 				</li>
 			</ul>

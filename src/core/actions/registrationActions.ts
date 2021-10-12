@@ -16,12 +16,15 @@ export const setUserRegistrationAction = createAction(ACTIONS.SET_USER)<any>();
 export const sendRegistrationDataAction = createAction(
 	ACTIONS.SEND_REGISTRATION_DATA
 )<IUserAuth>();
-export const sendRegistrationDatSuccessAction = createAction(
-	ACTIONS.SEND_REGISTRATIONN_DATA_SUCCESS
+export const sendRegistrationDataSuccessAction = createAction(
+	ACTIONS.SEND_REGISTRATION_DATA_SUCCESS
 )<boolean>();
 export const sendRegistrationDataErrorAction = createAction(
-	ACTIONS.SEND_REGISTRATIONN_DATA_ERROR
+	ACTIONS.SEND_REGISTRATION_DATA_ERROR
 )<any | null>();
 export const sendRegistrationConfirmationAction = createAction(
-	ACTIONS.SEND_REGISTRATIONN_CONFIRMATION
+	ACTIONS.SEND_REGISTRATION_CONFIRMATION
 )<IActivationPayload>();
+export const sendRegistrationIsPreloaderAction = createAction(
+	ACTIONS.SEND_REGISTRATION_IS_PRELOADER
+)<boolean>();

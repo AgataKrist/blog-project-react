@@ -1,11 +1,18 @@
-import { IActivationPayload, IToken, IUserLoginAuth } from "./../../types/user";
+import {
+	setIsPreloaderdAction,
+	setIsSuccesResetPasswordAction,
+} from "./../actions/resetPasswordActions";
+import {
+	IActivationPayload,
+	INewPasswordPayload,
+	IToken,
+	IUserEmail,
+	IUserLoginAuth,
+} from "./../../types/user";
 import {
 	sendRegistrationDataErrorAction,
-	sendRegistrationDatSuccessAction,
-	setMailRegistrationAction,
-	setPasswordConfirmRegistrationAction,
-	setPasswordRegistrationAction,
-	setUserRegistrationAction,
+	sendRegistrationDataSuccessAction,
+	sendRegistrationIsPreloaderAction,
 } from "./../actions/registrationActions";
 import { takeEvery } from "@redux-saga/core/effects";
 import { Action } from "redux-actions";
@@ -13,7 +20,11 @@ import { IUserAuth } from "../../types/user";
 import { ACTIONS } from "../actions/constants";
 import { call, put } from "redux-saga/effects";
 import { AuthService } from "../../services/AuthService";
-import { sendLoginDataErrorAction, sendLoginDataSuccessAction } from "..";
+import {
+	sendLoginDataErrorAction,
+	sendLoginDataSuccessAction,
+} from "../actions/loginActions";
+import { UserService } from "../../services/UserService";
 
 function* sendRegistrationSaga({
 	payload: { username, password, email },
@@ -26,31 +37,6 @@ function* sendRegistrationSaga({
 				password: null,
 			})
 		);
-		yield put(
-			setUserRegistrationAction({
-				value: "",
-				isValid: true,
-			})
-		);
-		// yield put(
-		// 	setMailRegistrationAction({
-		// 		value: email,
-		// 		isValid: true,
-		// 	})
-		// );
-		yield put(
-			setPasswordRegistrationAction({
-				value: "",
-				isValid: true,
-			})
-		);
-		yield put(
-			setPasswordConfirmRegistrationAction({
-				value: "",
-				isValid: true,
-			})
-		);
-		yield put(sendRegistrationDatSuccessAction(false));
 
 		yield call(() =>
 			AuthService.registration({
@@ -59,7 +45,7 @@ function* sendRegistrationSaga({
 				email,
 			})
 		);
-		yield put(sendRegistrationDatSuccessAction(true));
+		yield put(sendRegistrationDataSuccessAction(true));
 	} catch (e: any) {
 		const error = Object.entries(e.response.data).reduce(
 			(acc: any, field: any) => {
@@ -84,23 +70,14 @@ function* confirmationRegistrationSaga({
 				uid,
 			})
 		);
-		// yield put(sendRegistrationDatSuccessAction(true));
-	} catch (e: any) {
-		// const error = Object.entries(e.response.data).reduce(
-		// 	(acc: any, field: any) => {
-		// 		return {
-		// 			...acc,
-		// 			[field[0]]: field[1].join(""),
-		// 		};
-		// 	},
-		// 	{}
-		// );
-		// yield put(sendRegistrationDataErrorAction(error));
-	}
+		yield put(sendRegistrationIsPreloaderAction(false));
+		yield put(sendRegistrationDataSuccessAction(true));
+	} catch (e: any) {}
 }
 function* loginSaga({ payload: { email, password } }: Action<IUserLoginAuth>) {
 	try {
 		//@ts-ignore
+		sendLoginDataErrorAction(null);
 		const data: { data: IToken } = yield call(() =>
 			AuthService.login({
 				email,
@@ -112,33 +89,61 @@ function* loginSaga({ payload: { email, password } }: Action<IUserLoginAuth>) {
 		localStorage.setItem("access", access);
 		localStorage.setItem("refresh", refresh);
 
-		// yield put(sendLoginDataSuccessAction(true));
+		yield put(sendLoginDataSuccessAction(true));
 
-		// const usersData: { data: IToken } = yield call(() =>
-		// 	AuthService.getUsers()
-		// );
+		const usersData: { data: any } = yield call(() =>
+			UserService.getUsers()
+		);
 
-		// const users = usersData?.data as any;
+		const users = usersData?.data as any;
+		console.log(`users`, users);
 	} catch (e: any) {
-		// const error = Object.entries(e.response.data).reduce(
-		// 	(acc: any, field: any) => {
-		// 		return {
-		// 			...acc,
-		// 			[field[0]]: field[1].join(""),
-		// 		};
-		// 	},
-		// 	{}
-		// );
-		yield put(sendLoginDataErrorAction("bad"));
-		console.log(e);
+		yield put(
+			sendLoginDataErrorAction(
+				"No active account found with the given credentials"
+			)
+		);
 	}
+}
+
+function* sendResetPasswordSaga({ payload: { email } }: Action<IUserEmail>) {
+	console.log(`email`, email);
+	try {
+		const data: { data: any } = yield call(() =>
+			AuthService.getResetPasswordDate({ email })
+		);
+		yield put(setIsSuccesResetPasswordAction(true));
+	} catch (e: any) {
+		console.log(`{e}`, { e });
+	}
+}
+
+function* confirmationResetPasswordSaga({
+	payload: { token, uid, new_password },
+}: Action<INewPasswordPayload>) {
+	try {
+		yield call(() =>
+			AuthService.resetPasswordConfirm({
+				token,
+				uid,
+				new_password,
+			})
+		);
+		yield put(setIsPreloaderdAction(false));
+		yield put(setIsSuccesResetPasswordAction(true));
+	} catch (e: any) {}
 }
 
 export function* authSaga() {
 	yield takeEvery(ACTIONS.SEND_REGISTRATION_DATA, sendRegistrationSaga);
 	yield takeEvery(ACTIONS.SENT_LOGIN_DATA, loginSaga);
 	yield takeEvery(
-		ACTIONS.SEND_REGISTRATIONN_CONFIRMATION,
+		ACTIONS.SEND_REGISTRATION_CONFIRMATION,
 		confirmationRegistrationSaga
+	);
+	yield takeEvery(ACTIONS.SEND_RESET_PASSWORD, sendResetPasswordSaga);
+	yield takeEvery(
+		ACTIONS.SEND_RESET_PASSWORD_CONFIRM,
+		confirmationResetPasswordSaga
 	);
 }
