@@ -1,29 +1,33 @@
 import React from "react";
 import s from "./Post.module.css";
 import cn from "classnames";
-import img from "../../../assets/postImg.png";
 
 interface IPosts {
-	myPost?: boolean;
 	post?: any;
+	author?: number;
 }
 
-export const Post = ({ myPost, post }: IPosts) => {
+export const Post = ({ post, author }: IPosts) => {
 	return (
 		<div className={cn(s.wrapper)}>
 			<div className={s.post__item}>
-				<div className={s.img}>
-					<img src={post.image} alt={"IMGPOST"} />
-				</div>
+				<div
+					style={{
+						backgroundImage: `url(${post.image})`,
+						backgroundPosition: "center",
+						backgroundSize: "cover",
+					}}
+					className={s.img}
+				></div>
 				<div className={s.title}>
-					<h2>{post.title}</h2>
+					<h2 className={s.title_text}>{post.title}</h2>
 				</div>
 				<div className={s.text}>
 					<p>{post.text}</p>
 				</div>
 				<div className={s.post__footer}>
 					<span className={s.date}>{post.date}</span>
-					{!myPost && <span className={s.name}>{post.author}</span>}
+					<span className={s.name}>{author}</span>
 				</div>
 			</div>
 		</div>

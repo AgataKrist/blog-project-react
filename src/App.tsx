@@ -13,6 +13,7 @@ import { AllPosts } from "./components/pages/AllPosts";
 import { MyPosts } from "./components/pages/MyPosts";
 import { SelectedPost } from "./components/pages/SelectedPost";
 import { SuccessResetPassword } from "./components/pages/SuccesResetPassword";
+// import { AddPost } from "./components/pages/AddPost";
 
 function App() {
 	return (
@@ -20,19 +21,18 @@ function App() {
 			<Route path="/" exact component={HomePage} />
 			<Route path="/login" component={LoginPage} />
 			<Route path="/reset" component={ResetPassword} />
-			<Route path="/newPassword" component={NewPassword} />
 			<Route
-				path="/RegistrationConfirm"
+				path="/registration-confirm"
 				component={RegistrationConfirm}
 			/>
 			<Route
-				path="/resetPasswordConfirm"
+				path="/reset-password-confirm"
 				component={ResetPasswordAnswer}
 			/>
 			<Route path="/resetPass" component={ResetPassword} />
 			<Route path="/activate/:uid/:token" exact component={Success} />
 			<Route
-				path="/succesResetpassword"
+				path="/succes-reset-password"
 				exact
 				component={SuccessResetPassword}
 			/>
@@ -42,9 +42,10 @@ function App() {
 				component={NewPassword}
 			/>
 			<Route path="/registration" component={RegistrationPage} />
-			<Route path="/allPosts" component={AllPosts} />
-			<Route path="/myPosts" component={MyPosts} />
+			<Route path="/all-posts" component={AllPosts} />
+			<Route path="/my-posts" component={MyPosts} />
 			<Route path="/posts/:id" component={SelectedPost} />
+			{/* <Route path="/add-post" component={AddPost} /> */}
 		</Switch>
 	);
 }

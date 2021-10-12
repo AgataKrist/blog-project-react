@@ -13,11 +13,7 @@ import {
 	setNewPasswordAction,
 	setNewPasswordConfirmAction,
 } from "../../core/actions/resetPasswordActions";
-import {
-	isPasswordConfirm,
-	validateEmail,
-	validatePassword,
-} from "../../helper";
+import { isPasswordConfirm, validatePassword } from "../../helper";
 import show from "../../assets/show.svg";
 
 export const NewPassword = () => {
@@ -30,15 +26,16 @@ export const NewPassword = () => {
 			</div>
 		);
 	};
-	const { isPreloader, isSuccess, newPassword, newPasswordConfirm } =
-		useSelector(getResetPasswordState);
+	const { isSuccess, newPassword, newPasswordConfirm } = useSelector(
+		getResetPasswordState
+	);
 	const history = useHistory();
 
 	const params = useParams() as any;
 	const dispatch = useDispatch();
 	useEffect(() => {
 		if (isSuccess) {
-			history.push("/succesResetpassword");
+			history.push("/succes-reset-password");
 		}
 	}, [isSuccess, history]);
 
@@ -107,8 +104,6 @@ export const NewPassword = () => {
 							isShowImg={
 								newPasswordConfirm.isValid &&
 								newPasswordConfirm.value !== ""
-									? true
-									: false
 							}
 						/>
 						<Button sendData={sendData} text={"Set password"} />

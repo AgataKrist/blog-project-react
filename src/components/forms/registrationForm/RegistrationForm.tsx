@@ -59,7 +59,7 @@ export const RegistrationForm = () => {
 			);
 		}
 		if (success) {
-			history.push("/RegistrationConfirm");
+			history.push("/registration-confirm");
 		}
 		return () => {};
 	}, [
@@ -118,9 +118,7 @@ export const RegistrationForm = () => {
 					img={ok}
 					type={"text"}
 					error={error?.username}
-					isShowImg={
-						username.isValid && username.value !== "" ? true : false
-					}
+					isShowImg={username.isValid && username.value !== ""}
 				/>
 
 				<Input
@@ -144,9 +142,7 @@ export const RegistrationForm = () => {
 					img={ok}
 					type={"text"}
 					error={error?.email}
-					isShowImg={
-						email.isValid && email.value !== "" ? true : false
-					}
+					isShowImg={email.isValid && email.value !== ""}
 				/>
 				<Input
 					value={password.value}
@@ -170,9 +166,7 @@ export const RegistrationForm = () => {
 					img={show}
 					type={typePass}
 					error={error?.password}
-					isShowImg={
-						password.isValid && password.value !== "" ? true : false
-					}
+					isShowImg={password.isValid && password.value !== ""}
 				/>
 				<Input
 					value={passwordConfirm.value}
@@ -194,8 +188,6 @@ export const RegistrationForm = () => {
 					type={typePassConf}
 					isShowImg={
 						passwordConfirm.isValid && passwordConfirm.value !== ""
-							? true
-							: false
 					}
 				/>
 			</div>

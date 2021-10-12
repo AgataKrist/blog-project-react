@@ -1,3 +1,5 @@
+import { ImageType } from "react-images-uploading";
+
 export interface IPost {
 	id: number;
 	image: string;
@@ -18,4 +20,10 @@ export interface IMyPostRequest {
 }
 export interface ISelectedPost {
 	payload: number;
+}
+export interface IPostSendRequest {
+	image: ImageType;
+	text: string;
+	lesson_num: number;
+	title: string;
 }

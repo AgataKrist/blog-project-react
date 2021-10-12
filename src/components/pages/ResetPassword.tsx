@@ -33,7 +33,7 @@ export const ResetPassword = () => {
 
 	useEffect(() => {
 		if (isSuccess) {
-			history.push("/resetPasswordConfirm");
+			history.push("/reset-password-confirm");
 		}
 	}, [isSuccess, history]);
 	return (
