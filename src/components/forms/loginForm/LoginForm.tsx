@@ -118,9 +118,7 @@ export const LoginForm = () => {
 					label={"Password"}
 					img={show}
 					type={typePass}
-					isShowImg={
-						password.isValid && password.value !== "" ? true : false
-					}
+					isShowImg={password.isValid && password.value !== ""}
 					handleShowPass={handleShowPass}
 				/>
 			</div>
@@ -131,7 +129,7 @@ export const LoginForm = () => {
 				text={"Login"}
 			/>
 			<SignAbout
-				text={"MAIL:homep63238@xeiex.com"}
+				text={"Forgot your password?"}
 				link={"Reset password"}
 				to={"/reset"}
 			/>

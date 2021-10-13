@@ -1,8 +1,8 @@
 import React from "react";
-import s from "./Input.module.css";
+import s from "./Textarea.module.css";
 import cn from "classnames";
 
-interface IInput {
+interface ITextarea {
 	onChange?: any;
 	isValid?: boolean;
 	label?: string;
@@ -14,7 +14,7 @@ interface IInput {
 	isShowImg?: boolean;
 }
 
-export const Input = ({
+export const Textarea = ({
 	label,
 	img,
 	type,
@@ -24,31 +24,16 @@ export const Input = ({
 	value,
 	error,
 	isShowImg,
-}: IInput) => {
+}: ITextarea) => {
 	return (
 		<div className={s.wrapper}>
 			<label className={s.label}>{label}</label>
 			<span>{isValid}</span>
-			<input
+			<textarea
 				value={value}
 				onChange={(e: any) => onChange(e.target.value)}
 				className={cn(s.input, { [s.invalid]: !isValid })}
-				type={type}
 			/>
-			<span>{error}</span>
-			<span
-				onClick={() =>
-					(label === "Password" || label === "Confirm Password") &&
-					handleShowPass(type)
-				}
-				className={cn(s.icon, {
-					[s.show]: isShowImg,
-					[s.cursorPointer]:
-						label === "Password" || label === "Confirm Password",
-				})}
-			>
-				<img src={img} alt="ok" />
-			</span>
 		</div>
 	);
 };

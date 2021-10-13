@@ -1,10 +1,9 @@
 .wrapper {
-	margin: auto;
-	width: 70%;
-	padding: 0 20px;
 	display: grid;
-	grid-template-columns: auto auto auto;
-	grid-gap: 50px;
+	grid-template-columns: repeat(3, 30%);
+	justify-content: space-around;
+	grid-row-gap: 40px;
+	grid-column-gap: 15px;
 }
 .title__wrapper {
 	padding-left: 20px;

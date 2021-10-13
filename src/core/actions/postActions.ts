@@ -1,4 +1,4 @@
-import { IPost } from "./../../types/post";
+import { IPost, IPostSendRequest } from "./../../types/post";
 import { createAction } from "typesafe-actions";
 
 import { ACTIONS } from "./constants";
@@ -20,3 +20,6 @@ export const setSelectedPostAction = createAction(ACTIONS.SET_SELECTED_POST)<
 export const setMyPostErrorAction = createAction(ACTIONS.SET_MY_POST_ERROR)<
 	number | null
 >();
+export const sendPostAction = createAction(
+	ACTIONS.SEND_POST
+)<IPostSendRequest>();

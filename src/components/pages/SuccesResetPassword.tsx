@@ -12,11 +12,11 @@ import {
 } from "../../core/selectors/appSelectors";
 import { sendResetPasswordConfirmationAction } from "../../core/actions/resetPasswordActions";
 
-interface Isuccess {
+interface ISuccess {
 	text: string;
 }
 
-export const SuccessResetPassword = ({ text }: Isuccess) => {
+export const SuccessResetPassword = ({ text }: ISuccess) => {
 	const { isPreloader, isSuccess } = useSelector(getResetPasswordState);
 	const history = useHistory();
 
